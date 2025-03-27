@@ -22,10 +22,18 @@ class Date{
                 date.tm_mon = month - 1;
                 date.tm_year = year - 1900;
               }
-              void showDate(){
+              string showDate(){
                 char buffer[50];
-                strftime(buffer, sizeof(buffer), "%A, %d de %B de %Y - %H:%M", &date);
-                cout << "Date: " << buffer << endl;
+                strftime(buffer, sizeof(buffer), "%A, %d %B, %Y - %H:%M", &date);
+                return string(buffer);
+              }
+
+            void serialize(std::ostream& os) const {
+              os.write(reinterpret_cast<const char*>(&date), sizeof(date));
+            }
+      
+            void deserialize(std::istream& is) {
+                is.read(reinterpret_cast<char*>(&date), sizeof(date));
             }
 
 };
