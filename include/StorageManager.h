@@ -7,7 +7,6 @@
 
 class StorageManager {
 public:
-    // Método para abrir un archivo en modo de lectura y escritura binaria
     static std::fstream openFile(const std::string& filename, std::ios_base::openmode mode);
 
     template <typename T>
@@ -28,7 +27,6 @@ public:
         }
     }
 
-    // Método para verificar si el archivo está abierto
     static bool isFileOpen(std::fstream& file);
 };
 

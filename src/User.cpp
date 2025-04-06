@@ -4,7 +4,10 @@ User::User(): name(""), balance(0.0) {}
 
 User::User(string& name, double balance) : name(name), balance(balance){}
 
-string User::getName(){
+User::User(string& name, double balance, Date registered) : name(name), balance(balance), 
+    registeredDate(registered){}
+
+string User::getName() const{
     return name;
 }
 
@@ -12,7 +15,7 @@ void User::setName(string& name){
      this->name = name;
 }
 
-double User::getBalance(){
+double User::getBalance() const{
     return balance;
 }
 
@@ -24,11 +27,13 @@ void User::setRegisteredDate(Date date){
     this->registeredDate = date;
 }
 
-string User::getDate(){
+string User::getDate() const{
   return registeredDate.showDate();
 }
 
 void User::serialize(std::ostream& os) const {
+    char type = 'U'; 
+    os.write(&type, sizeof(type));
     size_t nameLen = name.size();
     os.write(reinterpret_cast<const char*>(&nameLen), sizeof(nameLen));
     os.write(name.c_str(), nameLen);

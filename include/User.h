@@ -11,12 +11,13 @@ class User {
       public:
               User();
              User(string& name_, double balance);
-             string getName();
+             User(string& name_, double balance, Date registeredDate);
+             string getName() const;
              void setName(string& name);
-             double getBalance();
+             double getBalance() const;
              void setBalance(double balance);
              void setRegisteredDate(Date date);
-             string getDate();
+             string getDate() const;
              void serialize(std::ostream& os) const;
               void deserialize(std::istream& is);
               

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <ctime>
+#include <sstream>
 
 using namespace std;
 
@@ -22,9 +23,9 @@ class Date{
                 date.tm_mon = month - 1;
                 date.tm_year = year - 1900;
               }
-              string showDate(){
+              string showDate() const{
                 char buffer[50];
-                strftime(buffer, sizeof(buffer), "%A, %d %B, %Y - %H:%M", &date);
+                strftime(buffer, sizeof(buffer), "%d/%m/%Y - %H:%M", &date);
                 return string(buffer);
               }
 
@@ -35,5 +36,19 @@ class Date{
             void deserialize(std::istream& is) {
                 is.read(reinterpret_cast<char*>(&date), sizeof(date));
             }
+
+            static Date parseDate(const std::string& dateString) {
+              int day, month, year, hour, minute;
+              char slash1, slash2, dash, colon;
+          
+              std::istringstream ss(dateString);
+              
+              ss >> day >> slash1 >> month >> slash2 >> year >> dash >> hour >> colon >> minute;
+          
+              if (slash1 != '/' || slash2 != '/' || dash != '-' || colon != ':') {
+                  throw std::runtime_error("Invalid date format");
+              }
+              return Date(day, month, year, hour, minute);
+          }
 
 };

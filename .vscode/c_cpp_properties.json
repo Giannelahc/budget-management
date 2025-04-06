@@ -4,7 +4,8 @@
             "name": "windows-gcc-x86",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/include"
+                "${workspaceFolder}/include",
+                "C:/sqlite3"
             ],
             "compilerPath": "C:/MinGW/bin/gcc.exe",
             "cStandard": "${default}",

@@ -15,7 +15,17 @@ void UserDao::loadUser(User& user) {
     std::fstream file = StorageManager::openFile("User.dat", std::ios::in | std::ios::binary);
     
     if (StorageManager::isFileOpen(file)) {
-        StorageManager::readObject(file, user);
+        while (!file.eof()) {
+            char type;
+            file.read(&type, sizeof(type));
+            if (file.eof()) break;
+
+            if (type == 'U') { 
+                user.deserialize(file);
+            } else {
+                file.ignore(1000);
+            }
+        }
         file.close();
     }
 }
