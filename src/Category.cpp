@@ -5,19 +5,29 @@ Category::Category()
 {
 }
 
-Category::Category(const string &name): name(name)
+Category::Category(const string &name, TransactionType transactionType): name(name), type(transactionType)
 {
 }
 
-Category::Category(int id, const string &name)
-    : id(id), name(name), registeredDate() {}
+Category::Category(int id, const string &name, TransactionType transactionType)
+    : id(id), name(name), type(transactionType), registeredDate() {}
 
-Category::Category(int id, const string &name, Date date): id(id), name(name), registeredDate(date)
+Category::Category(int id, const string &name, TransactionType transactionType, Date date): 
+    id(id), name(name), type(transactionType), registeredDate(date)
 {
 }
 
-string Category::getName() const{
+string Category::getName() const
+{
     return name;
+}
+
+TransactionType Category::getType() const { 
+    return type; 
+}
+
+void Category::setType(TransactionType t) { 
+    type = t; 
 }
 
 int Category::getId()

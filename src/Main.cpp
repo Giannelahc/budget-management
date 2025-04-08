@@ -15,18 +15,13 @@
 
 using namespace std;
 
-/*bool fileExists(const string& filename) {
-    ifstream file(filename);
-    return file.good();
-}*/
-
-void registerUserFile(User user, StorageManagerDb storageManagerdb);
-void registerCategory(StorageManagerDb storageManagerDb);
-void showUser(User user, StorageManagerDb storageManagerDb);
-void showCategories(StorageManagerDb storageManagerDb);
+void registerUserFile(User user, StorageManagerDb& storageManagerdb);
+void registerCategory(StorageManagerDb& storageManagerDb);
+void showUser(User user, StorageManagerDb& storageManagerDb);
+void showCategories(StorageManagerDb& storageManagerDb);
 vector<Category> getCategoryListDefault();
-void showMenuRegisterUser(User user, StorageManagerDb storageManagerDb);
-void showMenuUserRegistered(User user, StorageManagerDb storageManagerDb);
+void showMenuRegisterUser(User user, StorageManagerDb& storageManagerDb);
+void showMenuUserRegistered(User user, StorageManagerDb& storageManagerDb);
 
 int main() {
     User user;
@@ -53,7 +48,7 @@ int main() {
 	
 }
 
-void showMenuRegisterUser(User user, StorageManagerDb storageManagerDb) {
+void showMenuRegisterUser(User user, StorageManagerDb& storageManagerDb) {
 	int opc;
 	do{
 		system("cls");
@@ -73,7 +68,7 @@ void showMenuRegisterUser(User user, StorageManagerDb storageManagerDb) {
 	}
 }
 
-void showMenuUserRegistered(User user, StorageManagerDb storageManagerDb) {
+void showMenuUserRegistered(User user, StorageManagerDb& storageManagerDb) {
 	int opc;
 	do{
 		do{system("cls");
@@ -114,7 +109,7 @@ void showMenuUserRegistered(User user, StorageManagerDb storageManagerDb) {
 }
 
 
-void registerUserFile(User user, StorageManagerDb storageManagerdb){
+void registerUserFile(User user, StorageManagerDb& storageManagerdb){
 	string name;
     double amount;
 	Date date;
@@ -139,41 +134,60 @@ void registerUserFile(User user, StorageManagerDb storageManagerdb){
 	showMenuUserRegistered(user, storageManagerdb);
 }
 
-void showUser(User user, StorageManagerDb storageManagerDb){
+void showUser(User user, StorageManagerDb& storageManagerDb){
 	printf("\n\t***DATA***\n\n");
 	cout<<"\tName: "<<user.getName();
 	cout<<"\tBalance: "<<user.getBalance()<<setw(8);	
 	cout<<"\tRegistered date: "<<user.getDate();
 }
 
-void showCategories(StorageManagerDb storageManagerDb){
+void showCategories(StorageManagerDb& storageManagerDb){
 	CategoryDaoDb categoryDaoDb;
-	vector<Category> categories = categoryDaoDb.loadCategories(storageManagerDb);
+	int type;
+	printf("\n\tType: ");
+	printf("\n\t1. Income\n\t2. Outcome");
+	printf("\n\tType the option: ");
+	cin.ignore();
+	cin>>type;
+	if(type <=1) {
+		type = 0;
+	} else {
+		type = 1;
+	}
+	vector<Category> categories = categoryDaoDb.loadCategoriesByType(type, storageManagerDb);
+	system("cls");
 	printf("\n\t***CATEGORIES***\n\n");
 	for (Category category : categories) {
-		cout<<"\t"<<category.getId() << ". "<<category.getName()<< "\t"<<category.getDate()<<"\n";
+		cout<<"\t"<<category.getName()<<"\n";
 	}
 }
 
-void registerCategory(StorageManagerDb storageManagerDb) {
+void registerCategory(StorageManagerDb& storageManagerDb) {
 	string name;
-	
+	int type;
+	TransactionType transactionType;
 	printf("\n\t***CATEGORY***\n");
 	printf("\n\tName: ");
 	cin.ignore();
 	getline(cin, name);
 	transform(name.begin(), name.end(), name.begin(), ::toupper);
-
+	printf("\n\tType: ");
+	printf("\n\t1. Income\n\t2. Outcome");
+	cin>>type;
+	if(type <=1) {
+		transactionType = TransactionType::INCOME;
+	} else {
+		transactionType = TransactionType::OUTCOME;
+	}
 	CategoryDaoDb categoryDaoDb;
-	categoryDaoDb.saveCategory(Category((name)), storageManagerDb);
+	categoryDaoDb.saveCategory(Category(name, transactionType), storageManagerDb);
 }
-
-
-
 
 vector<Category> getCategoryListDefault(){
 	return {
-		Category(1, "EDUCATION"), Category(2, "TRANSPORTATION"), Category(3,"ENTERTAINMENT"),
-		Category(4, "HOUSING"), Category(5, "FOOD"), Category(6,"HEALTH")
+		Category("EDUCATION", TransactionType::OUTCOME), Category("TRANSPORTATION", TransactionType::OUTCOME), 
+		Category("ENTERTAINMENT", TransactionType::OUTCOME), Category("HOUSING", TransactionType::OUTCOME), 
+		Category("FOOD", TransactionType::OUTCOME), Category("HEALTH", TransactionType::OUTCOME),
+		Category("DEPOSIT", TransactionType::INCOME), Category("TRANSFER", TransactionType::INCOME)
 	};
 }

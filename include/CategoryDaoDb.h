@@ -6,5 +6,5 @@ class CategoryDaoDb {
     public:
         void saveCategories(vector<Category> categories, StorageManagerDb& dbManager);
         bool saveCategory(Category category, StorageManagerDb& dbManager);
-        vector<Category> loadCategories(StorageManagerDb& dbManager);
+        vector<Category> loadCategoriesByType(int type, StorageManagerDb& dbManager);
 };
