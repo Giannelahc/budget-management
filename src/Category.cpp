@@ -1,5 +1,6 @@
 #include <iostream>
 #include <Category.h>
+#include <iomanip>
 
 Category::Category()
 {
@@ -46,6 +47,16 @@ void Category::setRegisteredDate(Date date){
 
 string Category::getDate() const{
   return registeredDate.showDate();
+}
+
+void Category::showCategory() {
+    std::string typeName = (type == TransactionType::INCOME) ? "INCOME" : "OUTCOME";
+
+        std::cout << std::setw(3) << id 
+                  << std::setw(15) << name 
+                  << std::setw(10) << typeName
+                  << std::setw(20) << registeredDate.showDate()
+                  << std::endl;
 }
 
 void Category::serialize(std::ostream& out) const {

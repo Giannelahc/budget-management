@@ -49,6 +49,20 @@ class Date{
                   throw std::runtime_error("Invalid date format");
               }
               return Date(day, month, year, hour, minute);
-          }
+            }
+
+            static Date parseDateFormat2(const std::string& dateString) {
+              int day, month, year;
+              char slash1, slash2;
+          
+              std::istringstream ss(dateString);
+              
+              ss >> day >> slash1 >> month >> slash2 >> year;
+          
+              if (slash1 != '/' || slash2 != '/') {
+                  cout<<"Invalid format, please type again dd/MM/yyyy: ";
+              }
+              return Date(day, month, year, 0, 0);
+            }
 
 };

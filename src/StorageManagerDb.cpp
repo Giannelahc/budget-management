@@ -45,7 +45,7 @@ bool StorageManagerDb::createTablesIfNotExists() {
     std::vector<Table> tables = {
         {"User", "CREATE TABLE User (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, balance REAL, registeredDate TEXT);"},
         {"Category", "CREATE TABLE Category (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, type INTEGER, registeredDate TEXT);"},
-        {"Movement", "CREATE TABLE Movement (id INTEGER PRIMARY KEY AUTOINCREMENT, amount REAL, categoryId INTEGER, registeredDate TEXT, "
+        {"Movement", "CREATE TABLE Movement (id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT, amount REAL, categoryId INTEGER, registeredDate TEXT, "
                      "transactionDate TEXT, FOREIGN KEY(categoryId) REFERENCES Category(id));"}
     };
 

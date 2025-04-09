@@ -4,8 +4,12 @@ User::User(): name(""), balance(0.0) {}
 
 User::User(string& name, double balance) : name(name), balance(balance){}
 
-User::User(string& name, double balance, Date registered) : name(name), balance(balance), 
+User::User(int id, string& name, double balance, Date registered) : id(id), name(name), balance(balance), 
     registeredDate(registered){}
+
+int User::getId() const {
+    return id;
+}
 
 string User::getName() const{
     return name;

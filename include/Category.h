@@ -27,6 +27,7 @@ class Category {
         void setId(int id);
         void setRegisteredDate(Date date);
         string getDate() const;
+        void showCategory();
         void serialize(std::ostream &out) const;
         void deserialize(std::istream& in);
 };

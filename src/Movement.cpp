@@ -4,19 +4,23 @@ Movement::Movement(string description, double amount, Date transactionDate, int 
     : description(description), amount(amount), transactionDate(transactionDate), idCategory(idCategory)
 {
 }
-string Movement::getDescription()
+
+string Movement::getDescription() const
 {
     return description;
 }
-double Movement::getAmount()
+double Movement::getAmount() const
 {
     return amount;
 }
-Date Movement::getTransactionDate()
+string Movement::getTransactionDate() const
 {
-    return transactionDate;
+    return transactionDate.showDate();
 }
-int Movement::getIdCategory()
+string Movement::getDate() const{
+    return registeredDate.showDate();
+  }
+int Movement::getIdCategory() const
 {
     return idCategory;
 }
