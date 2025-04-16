@@ -1,6 +1,6 @@
-#include "User.h"
-#include "Date.h"
-#include "UserDaoDb.h"
+#include "model/User.h"
+#include "util/Date.h"
+#include "dao/UserDaoDb.h"
 
 bool UserDaoDb::saveUser(const User& user, StorageManagerDb &dbManager)
 {

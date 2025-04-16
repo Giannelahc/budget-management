@@ -1,4 +1,4 @@
-#include <Movement.h>
+#include <model/Movement.h>
 
 Movement::Movement(string description, double amount, Date transactionDate, int idCategory)
     : description(description), amount(amount), transactionDate(transactionDate), idCategory(idCategory)

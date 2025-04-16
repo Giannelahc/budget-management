@@ -1,7 +1,7 @@
 #include <vector>
-#include "Movement.h"
-#include "MovementDto.h"
-#include "StorageManagerDb.h"
+#include "model/Movement.h"
+#include "dto/MovementDto.h"
+#include "util/StorageManagerDb.h"
 
 class MovementDaoDb {
     public:

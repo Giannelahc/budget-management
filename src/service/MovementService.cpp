@@ -1,7 +1,7 @@
-#include "Movement.h"
-#include "MovementService.h"
-#include "MovementDaoDb.h"
-#include "UserDaoDb.h"
+#include "model/Movement.h"
+#include "service/MovementService.h"
+#include "dao/MovementDaoDb.h"
+#include "dao/UserDaoDb.h"
 
 void MovementService::calculateNewBalance(User &user, Movement &movement, StorageManagerDb &dbManager, int movementType)
 {

@@ -1,6 +1,6 @@
 #include <string.h>
-#include "Date.h"
-#include "Category.h"
+#include "util/Date.h"
+#include "model/Category.h"
 
 class MovementDto{
       private:

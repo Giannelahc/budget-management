@@ -1,7 +1,7 @@
 #ifndef CATEGORY_H
 #define CATEGORY_H
 
-#include "Date.h"
+#include "util/Date.h"
 
 enum TransactionType { 
     INCOME = 0,

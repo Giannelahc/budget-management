@@ -1,4 +1,4 @@
-#include <User.h>
+#include <model/User.h>
 
 User::User(): name(""), balance(0.0) {}
 

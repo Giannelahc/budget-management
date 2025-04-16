@@ -1,5 +1,5 @@
-#include "UserService.h"
-#include "UserDaoDb.h"
+#include "service/UserService.h"
+#include "dao/UserDaoDb.h"
 #include <openssl/sha.h>
 #include <string>
 #include <sstream>

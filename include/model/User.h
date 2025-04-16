@@ -2,7 +2,7 @@
 #define USER_H
 
 #include <string.h>
-#include "Date.h"
+#include "util/Date.h"
 class User {
        private:
         int id;

@@ -1,5 +1,5 @@
-#include "User.h"
-#include "StorageManagerDb.h"
+#include "model/User.h"
+#include "util/StorageManagerDb.h"
 
 class UserService {
     public:

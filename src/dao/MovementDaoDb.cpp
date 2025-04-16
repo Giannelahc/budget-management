@@ -1,6 +1,6 @@
-#include "Date.h"
-#include "MovementDaoDb.h"
-#include "CategoryDaoDb.h"
+#include "util/Date.h"
+#include "dao/MovementDaoDb.h"
+#include "dao/CategoryDaoDb.h"
 
 bool MovementDaoDb::saveMovement(const Movement &movement, StorageManagerDb &dbManager)
 {

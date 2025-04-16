@@ -1,4 +1,4 @@
-#include "CategoryDaoDb.h"
+#include "dao/CategoryDaoDb.h"
 
 static string queryInsert = "INSERT INTO Category (name, type, registeredDate) VALUES ('";
 

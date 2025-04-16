@@ -1,4 +1,4 @@
-#include "StorageManagerDb.h"
+#include "util/StorageManagerDb.h"
 #include <vector>
 
 StorageManagerDb::StorageManagerDb() : db(nullptr) {}
@@ -31,8 +31,8 @@ bool StorageManagerDb::tableExists(const std::string& tableName) {
         return false;
     }
 
-    bool exists = (sqlite3_step(stmt) == SQLITE_ROW); // Si devuelve una fila, la tabla existe
-    sqlite3_finalize(stmt);  // Liberamos el statement
+    bool exists = (sqlite3_step(stmt) == SQLITE_ROW); 
+    sqlite3_finalize(stmt); 
     return exists;
 }
 

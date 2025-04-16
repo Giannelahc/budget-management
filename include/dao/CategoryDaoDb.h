@@ -1,6 +1,6 @@
 #include <vector>
-#include "Category.h"
-#include "StorageManagerDb.h"
+#include "model/Category.h"
+#include "util/StorageManagerDb.h"
 
 class CategoryDaoDb {
     public:

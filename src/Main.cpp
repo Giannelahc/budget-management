@@ -1,13 +1,13 @@
 #include <iostream>
-#include "User.h"
-#include "Date.h"
-#include "Category.h"
-#include "CategoryDaoDb.h"
-#include "MovementDaoDb.h"
-#include "MovementService.h"
-#include "UserService.h"
-#include "StorageManagerDb.h"
-#include "UserDaoDb.h"
+#include "model/User.h"
+#include "util/Date.h"
+#include "model/Category.h"
+#include "dao/CategoryDaoDb.h"
+#include "dao/MovementDaoDb.h"
+#include "service/MovementService.h"
+#include "service/UserService.h"
+#include "util/StorageManagerDb.h"
+#include "dao/UserDaoDb.h"
 #include <ctime>
 #include <vector>
 #include <string.h>
@@ -87,6 +87,7 @@ void showLogin(User& user, StorageManagerDb& storageManagerDb) {
 	if (user.getName() == name && user.getPassword() == passwordHashed) {
 		showMenuUserRegistered(user, storageManagerDb);
 	} else {
+		printf("\n\tINCORRECT CREDENTIALS! \n");
 		system("pause");
 	}
 }
