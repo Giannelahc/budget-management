@@ -5,6 +5,7 @@
 #include "CategoryDaoDb.h"
 #include "MovementDaoDb.h"
 #include "MovementService.h"
+#include "UserService.h"
 #include "StorageManagerDb.h"
 #include "UserDaoDb.h"
 #include <ctime>
@@ -14,18 +15,21 @@
 #include <iomanip>
 #include <algorithm>
 #include <fstream>
+#include <openssl/sha.h>
 
 using namespace std;
 
-void registerUserFile(User user, StorageManagerDb& storageManagerdb);
+void registerUserFile(User& user, StorageManagerDb& storageManagerdb);
 void registerCategory(StorageManagerDb& storageManagerDb);
 void registerMovement(User& user,StorageManagerDb& storageManagerDb);
-void showUser(User user, StorageManagerDb& storageManagerDb);
+void showUser(User& user, StorageManagerDb& storageManagerDb);
 void showCategories(StorageManagerDb& storageManagerDb);
 void listMovements(StorageManagerDb& storageManagerDb);
 vector<Category> getCategoryListDefault();
-void showMenuRegisterUser(User user, StorageManagerDb& storageManagerDb);
-void showMenuUserRegistered(User user, StorageManagerDb& storageManagerDb);
+void showMenuRegisterUser(User& user, StorageManagerDb& storageManagerDb);
+void showMenuUserRegistered(User& user, StorageManagerDb& storageManagerDb);
+string getHiddenPassword();
+void showLogin(User& user, StorageManagerDb& storageManagerDb);
 
 int main() {
     User user;
@@ -40,19 +44,19 @@ int main() {
 
 	UserDaoDb userDaoDb;
 	vector<User> listUser = userDaoDb.getUsers(storageManagerdb);
-
+	
 	if (listUser.size()==0) {
         showMenuRegisterUser(user, storageManagerdb);
     } else {
 		user = listUser[0];
-        showMenuUserRegistered(user, storageManagerdb);
+		showLogin(user, storageManagerdb);
     }
 
 	storageManagerdb.closeDatabase();
 	
 }
 
-void showMenuRegisterUser(User user, StorageManagerDb& storageManagerDb) {
+void showMenuRegisterUser(User& user, StorageManagerDb& storageManagerDb) {
 	int opc;
 	do{
 		system("cls");
@@ -72,7 +76,22 @@ void showMenuRegisterUser(User user, StorageManagerDb& storageManagerDb) {
 	}
 }
 
-void showMenuUserRegistered(User user, StorageManagerDb& storageManagerDb) {
+void showLogin(User& user, StorageManagerDb& storageManagerDb) {
+	string name, passwordHashed;
+	system("cls");
+	printf("\n\t******LOG IN******\n");
+	printf("\n\tName:");
+	getline(cin, name);
+	transform(name.begin(), name.end(), name.begin(), ::toupper);
+	passwordHashed = UserService::hashPassword(getHiddenPassword());
+	if (user.getName() == name && user.getPassword() == passwordHashed) {
+		showMenuUserRegistered(user, storageManagerDb);
+	} else {
+		system("pause");
+	}
+}
+
+void showMenuUserRegistered(User& user, StorageManagerDb& storageManagerDb) {
 	int opc;
 	do{
 		do{ system("cls");
@@ -115,8 +134,9 @@ void showMenuUserRegistered(User user, StorageManagerDb& storageManagerDb) {
 }
 
 
-void registerUserFile(User user, StorageManagerDb& storageManagerdb){
+void registerUserFile(User& user, StorageManagerDb& storageManagerdb){
 	string name;
+	string password;
     double amount;
 	Date date;
 	printf("\n\t***USER***\n");
@@ -125,13 +145,15 @@ void registerUserFile(User user, StorageManagerDb& storageManagerdb){
 	getline(cin, name);
 	transform(name.begin(), name.end(), name.begin(), ::toupper);
     user.setName(name);
-	printf("\tInitial balance: ");
+    user.setPassword(getHiddenPassword());
+	cin.clear();
+	printf("\n\tInitial balance: ");
 	cin>>amount;
     user.setBalance(amount);
     user.setRegisteredDate(date);
 
-	UserDaoDb userDao;
-	userDao.saveUser(user, storageManagerdb);
+	UserService userService;
+	userService.registerUser(user, storageManagerdb);
 
 	vector<Category> defaultCategories = getCategoryListDefault();
 	CategoryDaoDb categoryDaoDb;
@@ -140,7 +162,25 @@ void registerUserFile(User user, StorageManagerDb& storageManagerdb){
 	showMenuUserRegistered(user, storageManagerdb);
 }
 
-void showUser(User user, StorageManagerDb& storageManagerDb){
+std::string getHiddenPassword() {
+    std::string password;
+    char ch;
+	cout<<"\n\tPassword: ";
+    while ((ch = _getch()) != '\r') { 
+        if (ch == '\b') {
+            if (!password.empty()) {
+                password.pop_back();
+                std::cout << "\b \b";
+            }
+        } else {
+            password.push_back(ch);
+            std::cout << '*';
+        }
+    }
+    return password;
+}
+
+void showUser(User& user, StorageManagerDb& storageManagerDb){
 	printf("\n\t***DATA***\n\n");
 	cout<<"\tName: "<<user.getName();
 	cout<<"\tBalance: "<<user.getBalance()<<setw(8);	
@@ -208,6 +248,7 @@ void registerCategory(StorageManagerDb& storageManagerDb) {
 	transform(name.begin(), name.end(), name.begin(), ::toupper);
 	printf("\n\tType: ");
 	printf("\n\t1. Income\n\t2. Outcome");
+	printf("\n\tEnter id type: ");
 	cin>>type;
 	if(type <=1) {
 		transactionType = TransactionType::INCOME;
@@ -215,7 +256,9 @@ void registerCategory(StorageManagerDb& storageManagerDb) {
 		transactionType = TransactionType::OUTCOME;
 	}
 	CategoryDaoDb categoryDaoDb;
-	categoryDaoDb.saveCategory(Category(name, transactionType), storageManagerDb);
+	if(categoryDaoDb.saveCategory(Category(name, transactionType), storageManagerDb)) {
+		printf("\n\tCategory registered successfully");
+	}
 }
 
 void registerMovement(User& user, StorageManagerDb& storageManagerDb) {
@@ -233,7 +276,7 @@ void registerMovement(User& user, StorageManagerDb& storageManagerDb) {
 	cin>>amount;
 	printf("\n\tType: ");
 	printf("\n\t1. Income\n\t2. Outcome");
-	printf("\n\tType id: ");
+	printf("\n\tEnter id type: ");
 	cin>>type;
 	if(type <=1) {
 		type = 0;
@@ -242,11 +285,11 @@ void registerMovement(User& user, StorageManagerDb& storageManagerDb) {
 	}
 	CategoryDaoDb categoryDaoDb;
 	vector<Category> categories = categoryDaoDb.loadCategoriesByType(type, storageManagerDb);
-	printf("\n\tCategory\n\n");
+	printf("\n\tCategory\n");
 	for (Category category : categories) {
 		cout<<"\t"<<category.getId()<<". "<<category.getName()<<"\n";
 	}
-	printf("\tType id category: ");
+	printf("\tEnter id category: ");
 	cin>>idCat;
 	printf("\n\tTransaction date (dd/MM/yyyy): ");
 	cin>>transactionDate;

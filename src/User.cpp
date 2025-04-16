@@ -4,8 +4,8 @@ User::User(): name(""), balance(0.0) {}
 
 User::User(string& name, double balance) : name(name), balance(balance){}
 
-User::User(int id, string& name, double balance, Date registered) : id(id), name(name), balance(balance), 
-    registeredDate(registered){}
+User::User(int id, string& name, string& password, double balance, Date registered) : id(id), name(name), password(password), 
+    balance(balance), registeredDate(registered){}
 
 int User::getId() const {
     return id;
@@ -25,6 +25,16 @@ double User::getBalance() const{
 
 void User::setBalance(double balance){
      this->balance = balance;
+}
+
+string User::getPassword() const
+{
+    return password;
+}
+
+void User::setPassword(string password)
+{
+    this->password = password;
 }
 
 void User::setRegisteredDate(Date date){
