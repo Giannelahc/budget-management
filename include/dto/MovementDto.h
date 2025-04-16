@@ -1,3 +1,6 @@
+#ifndef MOVEMENT_DTO_H
+#define MOVEMENT_DTO_H
+
 #include <string.h>
 #include "util/Date.h"
 #include "model/Category.h"
@@ -28,3 +31,4 @@ class MovementDto{
       
 };
 
+#endif

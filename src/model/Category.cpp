@@ -52,7 +52,7 @@ string Category::getDate() const{
 void Category::showCategory() {
     std::string typeName = (type == TransactionType::INCOME) ? "INCOME" : "OUTCOME";
 
-        std::cout << std::setw(3) << id 
+        std::cout << "\t"<<std::setw(3) << id 
                   << std::setw(15) << name 
                   << std::setw(10) << typeName
                   << std::setw(20) << registeredDate.showDate()

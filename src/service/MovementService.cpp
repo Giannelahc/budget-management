@@ -1,4 +1,5 @@
 #include "model/Movement.h"
+#include "dto/MovementDto.h"
 #include "service/MovementService.h"
 #include "dao/MovementDaoDb.h"
 #include "dao/UserDaoDb.h"
@@ -16,4 +17,9 @@ void MovementService::calculateNewBalance(User &user, Movement &movement, Storag
 
     UserDaoDb userDaoDb;
     userDaoDb.updateUser(user, dbManager);
+}
+vector<MovementDto> MovementService::getAllMovementsWithCategory(StorageManagerDb &db)
+{
+    MovementDaoDb dao;
+    return dao.getMovements(db);
 }

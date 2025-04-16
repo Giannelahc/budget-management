@@ -5,8 +5,20 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/include",
+                "${workspaceFolder}/include/model",
+                "${workspaceFolder}/include/controller",
+                "${workspaceFolder}/include/ui",
+                "${workspaceFolder}/include/dao",
+                "${workspaceFolder}/include/dto",
+                "${workspaceFolder}/include/service",
+                "${workspaceFolder}/include/util",
                 "C:/sqlite3",
                 "C:/Program Files/OpenSSL-Win64/include"
+            ],
+            "defines": [
+              "_DEBUG",
+              "UNICODE",
+              "_UNICODE"
             ],
             "compilerPath": "C:/MinGW/bin/gcc.exe",
             "cStandard": "${default}",

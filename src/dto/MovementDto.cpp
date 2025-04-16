@@ -48,7 +48,7 @@ string MovementDto::getNameType() const
 
 void MovementDto::showMovement()
 {
-    std::cout << std::setw(3) << id
+    std::cout <<"\t"<< std::setw(3) << id
                 << std::setw(20) << description
                 << std::setw(10) << amount 
                 << std::setw(10) << getNameType()
