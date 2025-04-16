@@ -19,11 +19,11 @@ void ReportUI::showMonthlyBalanceGraph(StorageManagerDb &storageManagerDb)
     }
 
     if (maxValue == 0 && minValue == 0) {
-        std::cerr << "Error: No se pueden mostrar los gráficos porque todos los balances son 0." << std::endl;
+        std::cerr << "Error: It is not possible to show the graphics" << std::endl;
         return;  
     }
 
-    std::cout << "\n\tBALANCE MONTHLY\n\n";
+    std::cout << "\n\tMONTHLY BALANCE\n\n";
 
     for (const auto& b : balances) {
         int barLength = 0;
