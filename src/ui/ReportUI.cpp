@@ -13,21 +13,18 @@ void ReportUI::showMonthlyBalanceGraph(StorageManagerDb &storageManagerDb)
     double maxValue = 0.0;
     double minValue = 0.0;
 
-    // Encontrar el valor máximo y mínimo
     for (const auto& b : balances) {
         if (b.getBalance() > maxValue) maxValue = b.getBalance();
         if (b.getBalance() < minValue) minValue = b.getBalance();
     }
 
-    // Evitar división por cero si maxValue es 0
     if (maxValue == 0 && minValue == 0) {
         std::cerr << "Error: No se pueden mostrar los gráficos porque todos los balances son 0." << std::endl;
-        return;  // Salir de la función si no hay balances válidos
+        return;  
     }
 
     std::cout << "\n\tBALANCE MONTHLY\n\n";
 
-    // Imprimir cada mes con su barra de gráfico
     for (const auto& b : balances) {
         int barLength = 0;
 
@@ -40,7 +37,6 @@ void ReportUI::showMonthlyBalanceGraph(StorageManagerDb &storageManagerDb)
         if (barLength < 0) barLength = 0;  
         if (barLength > maxBarWidth) barLength = maxBarWidth;  
 
-        // Para balances positivos, usamos el símbolo '█'
         if (b.getBalance() >= 0) {
             std::cout << "\t" << b.getMonth() << " | "
                       << std::string(barLength, (char)219) 
